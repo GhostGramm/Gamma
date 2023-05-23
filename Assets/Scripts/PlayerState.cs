@@ -17,7 +17,7 @@ public class PlayerState
 
     public virtual void Enter()
     {
-
+        player.p_Anim.SetBool(animBool, true);
     }
 
     public virtual void Update()
@@ -27,6 +27,6 @@ public class PlayerState
 
     public virtual void Exit()
     {
-
+        player.p_Anim.SetBool(animBool, false);
     }
 }
