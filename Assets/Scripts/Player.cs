@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,7 +7,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     #region Components
-    public Animator p_Anim;
+    public Animator p_Anim { get; private set; }
+    public Rigidbody2D rb { get; private set; }
     #endregion
 
     #region PlayerStates
@@ -15,9 +17,13 @@ public class Player : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     #endregion
 
+    #region Values
+    [Header("Variables")]
+    public float moveSpeed = 5;
+    #endregion
+
     private void Awake()
     {
-        
 
         stateMachine = new PlayerStateMachine();
 
@@ -40,6 +46,12 @@ public class Player : MonoBehaviour
     private void GetInitialComponent()
     {
         p_Anim = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void SetVelocity(float xVelocity, float yVelocity)
+    {
+        rb.velocity = new Vector2(xVelocity, yVelocity);
     }
 
 }
