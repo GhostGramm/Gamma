@@ -522,6 +522,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 12
+  facingDirection: 1
+  facingRight: 1
   GroundPoint: {fileID: 2073594350}
   GroundCheckDistance: 0.25
   WhatIsGround:

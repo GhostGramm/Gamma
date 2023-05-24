@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
     [Header("Variables")]
     public float moveSpeed = 5;
     public float jumpForce = 10;
+    public float facingDirection = 1;
+    public bool facingRight = true;
     #endregion
 
     #region Collision Checks
@@ -69,11 +72,24 @@ public class Player : MonoBehaviour
     public void SetVelocity(float xVelocity, float yVelocity)
     {
         rb.velocity = new Vector2(xVelocity, yVelocity);
+        FlipController(xVelocity);
+    }
+
+    public void Flip()
+    {
+        facingDirection = facingDirection * -1;
+        facingRight = !facingRight;
+        transform.Rotate(0, 180, 0);
     }
 
     public bool isGrounded() => Physics2D.Raycast(GroundPoint.position, Vector2.down, GroundCheckDistance, WhatIsGround);
     public bool isWallDetected() => Physics2D.Raycast(WallPoint.position, Vector2.right, WallCheckDistance, WhatIsWall);
 
+    public void FlipController(float x)
+    {
+        if(x > 0 && !facingRight)   Flip();
+        else if(x < 0 && facingRight) Flip();
+    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(GroundPoint.position, new Vector3(GroundPoint.position.x, GroundPoint.position.y - GroundCheckDistance));
