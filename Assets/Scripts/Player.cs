@@ -18,11 +18,13 @@ public class Player : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
     #endregion
 
     #region Values
     [Header("Variables")]
     public float moveSpeed = 5;
+    public float dashSpeed = 15;
     public float jumpForce = 10;
     public float facingDirection = 1;
     public bool facingRight = true;
@@ -37,7 +39,14 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform WallPoint;
     [SerializeField] private float WallCheckDistance;
     [SerializeField] private LayerMask WhatIsWall;
+    #endregion
 
+    #region Timers
+    [Header("Dash Info")]
+    public float dashTimer;
+    public float dashReset;
+    public float dashingTime;
+    public float dashDirection;
     #endregion
 
     private void Awake()
@@ -48,8 +57,8 @@ public class Player : MonoBehaviour
         idleState = new PlayerIdleState(this, stateMachine, "idle");
         moveState = new PlayerMoveState(this, stateMachine, "move");
         jumpState = new PlayerJumpState(this, stateMachine, "jump");
-        airState  = new PlayerAirState(this, stateMachine, "jump");
-
+        airState  = new PlayerAirState(this, stateMachine,  "jump");
+        dashState = new PlayerDashState(this, stateMachine, "dash");
     }
 
     private void Start()
@@ -61,6 +70,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
+        CheckForDash();
     }
     
     private void GetInitialComponent()
@@ -75,15 +85,28 @@ public class Player : MonoBehaviour
         FlipController(xVelocity);
     }
 
+    public void CheckForDash()
+    {
+        dashingTime -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (dashingTime > 0) return;
+            dashDirection = Input.GetAxis("Horizontal");
+
+            if (dashDirection == 0) dashDirection = facingDirection;
+
+            stateMachine.ChangeState(dashState);
+            dashingTime = dashReset;
+        }
+    }
+
     public void Flip()
     {
         facingDirection = facingDirection * -1;
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
     }
-
-    public bool isGrounded() => Physics2D.Raycast(GroundPoint.position, Vector2.down, GroundCheckDistance, WhatIsGround);
-    public bool isWallDetected() => Physics2D.Raycast(WallPoint.position, Vector2.right, WallCheckDistance, WhatIsWall);
 
     public void FlipController(float x)
     {
@@ -95,5 +118,8 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(GroundPoint.position, new Vector3(GroundPoint.position.x, GroundPoint.position.y - GroundCheckDistance));
         Gizmos.DrawLine(WallPoint.position, new Vector3(WallPoint.position.x + WallCheckDistance, WallPoint.position.y));
     }
+
+    public bool isGrounded() => Physics2D.Raycast(GroundPoint.position, Vector2.down, GroundCheckDistance, WhatIsGround);
+    public bool isWallDetected() => Physics2D.Raycast(WallPoint.position, Vector2.right, WallCheckDistance, WhatIsWall);
 
 }
