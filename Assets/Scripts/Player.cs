@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
     public PlayerDashState dashState { get; private set; }
+    public PlayerWallSlideState wallSlideState { get; private set; }
     #endregion
 
     #region Values
@@ -59,6 +60,7 @@ public class Player : MonoBehaviour
         jumpState = new PlayerJumpState(this, stateMachine, "jump");
         airState  = new PlayerAirState(this, stateMachine,  "jump");
         dashState = new PlayerDashState(this, stateMachine, "dash");
+        wallSlideState = new PlayerWallSlideState(this, stateMachine, "wallSlide");
     }
 
     private void Start()

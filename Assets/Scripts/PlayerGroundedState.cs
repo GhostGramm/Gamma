@@ -20,6 +20,8 @@ public class PlayerGroundedState : PlayerState
     public override void Update()
     {
         base.Update();
+
+        //if (player.facingDirection == xInput && player.isWallDetected()) stateMachine.ChangeState(player.idleState);
         if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded()) stateMachine.ChangeState(player.jumpState);
     }
 }

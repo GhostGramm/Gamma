@@ -8,6 +8,7 @@ public class PlayerState
     protected PlayerStateMachine stateMachine;
     private string animBool;
     protected float xInput = 0;
+    protected float yInput = 0;
     protected Rigidbody2D rb;
     protected float stateTimer = 0;
 
@@ -28,6 +29,7 @@ public class PlayerState
     {
         stateTimer -= Time.deltaTime;
         xInput = Input.GetAxisRaw("Horizontal");
+        yInput = Input.GetAxisRaw("Vertical");
         player.p_Anim.SetFloat("yVelocity", rb.velocity.y);
     }
 
