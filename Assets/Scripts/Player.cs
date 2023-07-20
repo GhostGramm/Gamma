@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
     private void GetInitialComponent()
     {
         p_Anim = GetComponentInChildren<Animator>();
+
         rb = GetComponent<Rigidbody2D>();
     }
 
