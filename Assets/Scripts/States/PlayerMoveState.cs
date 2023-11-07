@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundedState
@@ -21,6 +20,7 @@ public class PlayerMoveState : PlayerGroundedState
 
     public override void Update()
     {
+        Debug.Log("Moving in progress");
         base.Update();
 
         player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);

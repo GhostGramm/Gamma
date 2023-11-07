@@ -23,5 +23,7 @@ public class PlayerGroundedState : PlayerState
 
         //if (player.facingDirection == xInput && player.isWallDetected()) stateMachine.ChangeState(player.idleState);
         if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded()) stateMachine.ChangeState(player.jumpState);
+
+        if (Input.GetKeyDown(KeyCode.Mouse0)) stateMachine.ChangeState(player.primaryAttack);
     }
 }

@@ -5,7 +5,7 @@ public class PlayerAirState : PlayerState
 {
     public float airMovementVelocity = 0.8f;
     public PlayerAirState(Player player, PlayerStateMachine stateMachine, string animBool) : base(player, stateMachine, animBool)
-    {
+    { 
     }
 
     public override void Enter()

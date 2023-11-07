@@ -20,6 +20,10 @@ public class Player : MonoBehaviour
     public PlayerAirState airState { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerWallSlideState wallSlideState { get; private set; }
+    public PlayerWallJumpState wallJumpState { get; private set; }
+
+
+    public PlayerPrimaryAttack primaryAttack { get; private set; }
     #endregion
 
     #region Values
@@ -61,6 +65,8 @@ public class Player : MonoBehaviour
         airState  = new PlayerAirState(this, stateMachine,  "jump");
         dashState = new PlayerDashState(this, stateMachine, "dash");
         wallSlideState = new PlayerWallSlideState(this, stateMachine, "wallSlide");
+        wallJumpState = new PlayerWallJumpState(this, stateMachine, "jump");
+        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "attack");
     }
 
     private void Start()
@@ -116,6 +122,8 @@ public class Player : MonoBehaviour
         if(x > 0 && !facingRight)   Flip();
         else if(x < 0 && facingRight) Flip();
     }
+
+    public void UpdateAnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(GroundPoint.position, new Vector3(GroundPoint.position.x, GroundPoint.position.y - GroundCheckDistance));
