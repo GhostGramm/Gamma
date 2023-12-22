@@ -18,15 +18,16 @@ public class PlayerPrimaryAttack : PlayerState
     {
         base.Enter();
 
-        
+        stateTimer = 0.1f;
 
         if (comboCounter > 2 || Time.time > lastAttackTime + comboWindow)
         {
             comboCounter = 0;
         }
 
+        player.SetVelocity(xInput, rb.velocity.y);
+
         player.p_Anim.SetInteger(ANIMATIONPARAMETER, comboCounter);
-        Debug.Log(comboCounter);
     }
 
     public override void Exit()
@@ -36,13 +37,18 @@ public class PlayerPrimaryAttack : PlayerState
         comboCounter++;
         
         lastAttackTime = Time.time;
+
+        player.StartCoroutine("BusyFor", .1f);
     }
 
     public override void Update()
     {
         base.Update();
 
-        player.SetVelocity(xInput, rb.velocity.y);
+        if(stateTimer < 0)
+        {
+            player.SetVelocity(0, 0);
+        }
     }
 
     public override void AnimationFinishTrigger()

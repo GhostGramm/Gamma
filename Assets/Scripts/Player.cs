@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
     public float jumpForce = 10;
     public float facingDirection = 1;
     public bool facingRight = true;
+
+    public bool isBusy { get; private set; } = false;
     #endregion
 
     #region Collision Checks
@@ -86,6 +89,15 @@ public class Player : MonoBehaviour
         p_Anim = GetComponentInChildren<Animator>();
 
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    public IEnumerator BusyFor(float seconds)
+    {
+        isBusy = true;
+
+        yield return new WaitForSeconds(seconds);
+
+        isBusy = false;
     }
 
     public void SetVelocity(float xVelocity, float yVelocity)

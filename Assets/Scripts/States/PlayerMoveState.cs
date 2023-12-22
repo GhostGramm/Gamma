@@ -21,6 +21,7 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
+        Debug.Log("Moving State");
 
         player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
 
